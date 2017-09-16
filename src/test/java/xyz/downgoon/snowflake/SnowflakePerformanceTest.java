@@ -29,7 +29,7 @@ public class SnowflakePerformanceTest {
 	
 	@Test
 	public void testC10N10w() throws Exception {
-		ConcurrentTestFramework ctf = new ConcurrentTestFramework("C10N10w");
+		ConcurrentTestFramework ctf = new ConcurrentTestFramework("C10N10w", true);
 		final Snowflake snowflake = new Snowflake(2, 5);
 		SummaryReport report = ctf.test(10, 100000, new Runnable() {
 			
@@ -40,6 +40,36 @@ public class SnowflakePerformanceTest {
 		});
 		report.setAttachment(String.format("wait: %d", snowflake.getWaitCount()));
 		System.out.println("C10N10w Report: " + report);
+	}
+	
+	@Test
+	public void testC100N1w() throws Exception {
+		ConcurrentTestFramework ctf = new ConcurrentTestFramework("C100N1w", false);
+		final Snowflake snowflake = new Snowflake(2, 5);
+		SummaryReport report = ctf.test(100, 10000, new Runnable() {
+			
+			@Override
+			public void run() {
+				snowflake.nextId();
+			}
+		});
+		report.setAttachment(String.format("wait: %d", snowflake.getWaitCount()));
+		System.out.println("C100N1w Report: " + report);
+	}
+	
+	@Test
+	public void testC50N100w() throws Exception {
+		ConcurrentTestFramework ctf = new ConcurrentTestFramework("C50N100w", false);
+		final Snowflake snowflake = new Snowflake(2, 5);
+		SummaryReport report = ctf.test(50, 1000000, new Runnable() {
+			
+			@Override
+			public void run() {
+				snowflake.nextId();
+			}
+		});
+		report.setAttachment(String.format("wait: %d", snowflake.getWaitCount()));
+		System.out.println("C50N100w Report: " + report);
 	}
 
 	/**

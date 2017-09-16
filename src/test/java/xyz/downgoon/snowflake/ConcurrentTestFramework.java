@@ -6,8 +6,11 @@ public class ConcurrentTestFramework {
 
 	private String name;
 
-	public ConcurrentTestFramework(String name) {
+	private boolean debugMode;
+
+	public ConcurrentTestFramework(String name, boolean debugMode) {
 		this.name = name;
+		this.debugMode = debugMode;
 	}
 
 	static class SummaryReport {
@@ -19,12 +22,12 @@ public class ConcurrentTestFramework {
 		private int n;
 
 		/** start time stamp */
-		private volatile long stm = -1L;
+		private volatile long startNanoTime = -1L;
 
 		/** end time stamp */
-		private volatile long etm = -1L;
+		private volatile long endedNanoTime = -1L;
 
-		String attachment;
+		private String attachment;
 
 		public SummaryReport(int c, int n) {
 			this.c = c;
@@ -32,27 +35,27 @@ public class ConcurrentTestFramework {
 		}
 
 		public boolean startIfNot() {
-			if (stm < 0) {
-				stm = System.currentTimeMillis();
+			if (startNanoTime < 0) {
+				startNanoTime = System.nanoTime();
 				return true;
 			}
 			return false;
 		}
 
 		public boolean endIfNot() {
-			if (etm < 0) {
-				etm = System.currentTimeMillis();
+			if (endedNanoTime < 0) {
+				endedNanoTime = System.nanoTime();
 				return true;
 			}
 			return false;
 		}
 
 		public boolean isStarted() {
-			return stm > 0;
+			return startNanoTime > 0;
 		}
 
 		public boolean isEnded() {
-			return etm > 0;
+			return endedNanoTime > 0;
 		}
 
 		public void setAttachment(String attachment) {
@@ -61,10 +64,22 @@ public class ConcurrentTestFramework {
 
 		@Override
 		public String toString() {
-			long costMS = etm - stm;
-			long qps = (long) ((c * n) / (costMS / 1000.0));
-			long qpms = (c * n) / costMS;
-			return String.format("C%dN%d: costMS=%d, QPS=%d, QPMS=%d, %s", c, n, costMS, qps, qpms, attachment);
+			long costNano = (endedNanoTime - startNanoTime);
+			long costMS = costNano / (1000000L);
+
+			/* 1ms = 1000us = 1000*1000 nano */
+			double qpms = ((c * n + 0.0) / (costNano)) * 1000000;
+			double qps = (c * n + 0.0) / (costNano / 1000000000.0);
+
+			if (qpms > 4096) { // max sequence
+				/* anti time precision lost by plus 1 ms */
+				// costNano += 1000000L;
+				qpms = 4096;
+				qps = qpms * 1000L;
+			}
+
+			return String.format("C%dN%d: costMS=%d, QPMS=%.2f, costSec=%d, QPS=%.2f, %s", c, n, costMS, qpms,
+					(costMS / 1000L), qps, attachment);
 		}
 
 	}
@@ -83,13 +98,17 @@ public class ConcurrentTestFramework {
 
 					try {
 						startLatch.await(); // wait for start cmd
-						System.out.println(Thread.currentThread().getName() + " starting ...");
+						if (debugMode) {
+							System.out.println(Thread.currentThread().getName() + " starting ...");
+						}
 						report.startIfNot();
 						for (int j = 0; j < n; j++) {
 							action.run();
 						}
 						finishLatch.countDown(); // report finish
-						System.out.println(Thread.currentThread().getName() + " finished !!!");
+						if (debugMode) {
+							System.out.println(Thread.currentThread().getName() + " finished !!!");
+						}
 
 					} catch (Exception e) {
 						e.printStackTrace();

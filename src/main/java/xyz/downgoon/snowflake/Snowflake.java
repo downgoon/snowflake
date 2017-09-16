@@ -177,6 +177,10 @@ public class Snowflake {
 				+ ", workerIdBits=" + workerIdBits + ", sequenceBits=" + sequenceBits + ", epoch=" + epoch
 				+ ", datacenterId=" + datacenterId + ", workerId=" + workerId + "]";
 	}
+	
+	public long getEpoch() {
+		return this.epoch;
+	}
 
 	/**
 	 * extract time stamp, datacenterId, workerId and sequence number

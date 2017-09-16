@@ -6,7 +6,7 @@ java edition of [Twitter Snowflake](https://github.com/twitter/snowflake), a net
 
 - import maven dependency
 
-```
+``` xml
 <dependency>
   <groupId>xyz.downgoon</groupId>
   <artifactId>snowflake</artifactId>
@@ -21,7 +21,11 @@ java edition of [Twitter Snowflake](https://github.com/twitter/snowflake), a net
 Snowflake snowflake = new Snowflake(2, 5);
 long id1 = snowflake.nextId();
 long id2 = snowflake.nextId();
+
+snowflake.formatId(id1);
 ```
+
+for more details, please read [SnowflakeDemo2.java](src/test/java/xyz/downgoon/snowflake/SnowflakeDemo2.java).
 
 ## snowflake tutorial
 

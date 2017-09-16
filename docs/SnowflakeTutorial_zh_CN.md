@@ -11,6 +11,7 @@
 		- [输出结果](#输出结果)
 		- [源代码解析](#源代码解析)
 		- [性能测试](#性能测试)
+		- [FAQ](#faq)
 	- [参考资料](#参考资料)
 
 <!-- /TOC -->
@@ -66,8 +67,8 @@
 Snowflake snowflake = new Snowflake(2, 5);
 // 连续产生6个序号
 for (int i = 0; i < 20; i++) {
-			long id = snowflake.nextId();
-			System.out.println(String.format("%s => id: %d, hex: %s, bin: %s", snowflake.formatId(id), id,
+   long id = snowflake.nextId();
+	 System.out.println(String.format("%s => id: %d, hex: %s, bin: %s", snowflake.formatId(id), id,
 					BinHexUtil.hex(id), BinHexUtil.bin(id)));
 }
 ```
@@ -193,7 +194,22 @@ C1N10000000: costMS=2441, QPS=4096681, QPMS:=4096, wait=2440
 C10N10w Report: C10N100000: costMS=244, QPS=4098360, QPMS=4098, wait: 243
 ```
 
-QPMS=4098，超过了上限 4096 ？
+QPMS=4098，超过了上限 4096 ？原因应该是系统时间获取上以毫秒为单位有精度损失，但是``nextId()``计数上没有精度损失。比如``nextId()``虽然运行了100次，但是时间点都在同一个毫秒内，这样QPMS就变成无穷大了。
+
+再看一组结果：
+
+```
+C100N1w Report: C100N10000: costMS=243, QPMS=4096.00, costSec=0, QPS=4096000.00, wait: 243
+C50N100w Report: C50N1000000: costMS=12206, QPMS=4096.00, costSec=12, QPS=4096000.00, wait: 12204
+```
+
+>并发100个线程，每个生成1w个ID；并发50个线程，每个生成100w个ID；QPMS都是4096。从结果看，``synchronized long nextId``的线程同步，并没有太影响性能！？原因是同步代码块执行极其快，连1/4096毫秒的时间都不要，所以执行过程基本不会被切换线程。
+
+### FAQ
+
+- [x] ``synchronized long nextId()``的``synchronized``会不会影响性能？不会。因为同步代码块执行极其快，连1/4096毫秒的时间都不要，所以执行过程基本不会被切换线程。
+
+------
 
 ## 参考资料
 
