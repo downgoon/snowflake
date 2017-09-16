@@ -177,7 +177,7 @@ System.out.println(BinHexUtil.bin(-1L ^ (-1L << 12)));
 
 ### 性能测试
 
-测试代码：[SnowflakePerformanceTest.java](src/test/java/xyz/downgoon/snowflake/SnowflakePerformanceTest.java)
+测试代码：[SnowflakePerformanceTest.java](../src/test/java/xyz/downgoon/snowflake/SnowflakePerformanceTest.java)
 
 - 单线程测试
 
