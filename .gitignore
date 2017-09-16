@@ -1,0 +1,235 @@
+
+# don't forget share .gitignore located in project root path
+!.gitignore
+
+
+######## programming lang  related ignore
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+
+## .gitignore for java
+## https://raw.githubusercontent.com/github/gitignore/master/Java.gitignore
+
+*.class
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+!/lib/*.jar
+*.war
+*.ear
+*.zip
+*.zip.sha1
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+## .gitignore for java web
+# older plugin install locations
+/plugins
+/web-app/plugins
+/web-app/WEB-INF/classes
+**/classes/
+
+**/classes/
+**/WEB-INF/classes/
+**/WEB-INF/tmp/
+**/WEB-INF/work/
+*__jsp.java
+*__jsp.java.smap
+
+######## state info on running: logs or mem-db
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+
+# default HSQL database files for production mode
+/prodDb.*
+
+# general HSQL database files
+*Db.properties
+*Db.script
+
+# logs
+/stacktrace.log
+/test/reports
+/logs
+/log
+*.log
+*.log.*
+
+
+######## maven & ant  related ignore
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+
+# .gitignore for maven 
+target/
+*.releaseBackup
+
+# .gitignore for ant 
+build/
+out/
+
+# older plugin install locations
+/plugins
+/web-app/plugins
+/web-app/WEB-INF/classes
+
+######## IDE related ignore
+#######################################################################################################
+#######################################################################################################
+
+## .gitignore for eclipse
+####################################
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings
+.loadpath
+.recommenders
+
+# Eclipse Core
+.project
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+#####################################
+
+
+## .gitignore for intellij
+#####################################
+
+*.iml
+*.ipr
+*.iws
+.idea/
+
+#####################################
+
+
+
+######## OS related ignore
+#######################################################################################################
+#######################################################################################################
+
+## .gitignore for windows
+## https://raw.githubusercontent.com/github/gitignore/master/Global/Windows.gitignore
+####################################
+# Windows thumbnail cache files
+Thumbs.dtignoreb
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+##################################
+
+
+## .gitignore for mac os x
+## https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
+###################################
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+#########################################
+
+
+## .gitignore for linux 
+## https://raw.githubusercontent.com/github/gitignore/master/Global/Linux.gitignore
+#########################################
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+########################################
