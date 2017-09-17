@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<description>java edition of Twitter Snowflake: a network service for generating unique ID numbers at high scale with some simple guarantees</description>
-	<url>http://github.com/downgoon/snowflake</url>
+	<url>http://snowflake.downgoon.xyz/</url>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
