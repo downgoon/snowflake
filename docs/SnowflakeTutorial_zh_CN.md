@@ -89,7 +89,18 @@ for (int i = 0; i < 20; i++) {
 2017-09-15 17:35:04.894, #1, @(2,5) => id: 225912364284006401, hex: 03229A192F845001, bin: 0000001100100010100110100001100100101111100001000101000000000001
 ```
 
-从输出结果看出，由于``System.out.println``IO操作比较耗时，导致前后两次生成ID的时间间隔偶尔会超过1毫秒。超过1毫秒的，序号字段会是``#0``；没超过1毫秒的，序号字段会累加。
+从输出结果看出，由于``System.out.println``IO操作比较耗时，导致前后两次生成ID的时间间隔偶尔会超过1毫秒。超过1毫秒的，序号字段会是``#0``；没超过1毫秒的，序号字段会累加。对应如下源码:
+```java
+/**
+ * the unique and incrementing sequence number scoped in only one
+ * period/unit (here is ONE millisecond). its value will be increased by 1
+ * in the same specified period and then reset to 0 for next period.
+ * <p>
+ * max: 2^12-1 range: [0,4095]
+ */
+private long sequence = 0L;
+```
+
 
 ### 源代码解析
 
